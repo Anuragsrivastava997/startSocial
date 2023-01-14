@@ -68,7 +68,3 @@ export const login = catchAsync(async (req, res) => {
     true
   );
 });
-
-export const verify = catchAsync(async (req, res) => {
-  return sendResponse(res, 200, { msg: responseMessage.userMessage.loggedIn });
-});

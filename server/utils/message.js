@@ -23,6 +23,26 @@ const responseMessage = {
     registered: "User registered",
     loggedIn: "User logged in",
     notFound: "User not found",
+    invalidId: `${provide} user id`,
+  },
+  postMessage: {
+    created: "Post created",
+    updated: "Post updated",
+    invalidId: `${provide} post id`,
+    notFound: "Post not found",
+    deleted: "Post deleted",
+    alreadyDeleted: "Post already deleted",
+  },
+  eventMessage: {
+    inValidId: `${provide} post id or user id`,
+    inValid: `${provide} event id`,
+    created: "Event created",
+    updated: "Event updated",
+    deleted: "Event deleted",
+    notFound: "Event not found",
+  },
+  other: {
+    interServerErr: "Internal server error",
   },
 };
 

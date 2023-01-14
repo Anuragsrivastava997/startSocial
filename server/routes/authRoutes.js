@@ -12,6 +12,5 @@ authRouter.post(
 );
 
 authRouter.post("/login", validation.validateLogin, authController.login);
-authRouter.post("/verify", verifyToken, authController.verify);
 
 export default authRouter;
