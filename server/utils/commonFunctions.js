@@ -7,12 +7,12 @@ const jwtToken = (id) => {
   });
 };
 
-export const sendResponse = (res, status, body, jwt = false) => {
+export const sendResponse = (res, status, jsonData, jwt = false) => {
   let token = "";
   if (jwt) {
-    token = jwtToken(body.id);
+    token = jwtToken(jsonData.data._id);
   }
-  return res.status(status).json({ token, ...body });
+  return res.status(status).json({ token, ...jsonData });
 };
 
 const uniqueTime = Date.now();

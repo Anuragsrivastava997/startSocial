@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import { sendResponse } from "../utils/commonFunctions";
-import responseMessage from "../utils/message";
+import { sendResponse } from "../utils/commonFunctions.js";
+import responseMessage from "../utils/message.js";
 
 export const verifyToken = (req, res, next) => {
-  let token = req.headers("Authorization");
+  let token = req.headers["authorization"];
 
   if (!token)
     return sendResponse(res, 403, {
