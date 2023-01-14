@@ -1,8 +1,6 @@
 import { body, validationResult, check } from "express-validator";
 
-import { sendResponse } from "../utils/commonFunctions";
-import AppError from "../utils/appError";
-import responseMessage from "../utils/message";
+import responseMessage from "../utils/message.js";
 
 const sendResponse = (req, res, next) => {
   const errors = validationResult(req);
@@ -14,7 +12,7 @@ const sendResponse = (req, res, next) => {
   next();
 };
 
-exports.validateSignup = [
+export const validateSignup = [
   body("email")
     .not()
     .isEmpty()
@@ -36,7 +34,7 @@ exports.validateSignup = [
     .isEmpty()
     .withMessage(responseMessage.validationMessage.emptyPassword)
     .isLength({ min: 8, max: 15 })
-    .withMessage(responseMessage.validationMessage.invalidPassword)
+    .withMessage(responseMessage.validationMessage.invalidPasswordLength)
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
     )
@@ -46,7 +44,7 @@ exports.validateSignup = [
   },
 ];
 
-exports.validateLogin = [
+export const validateLogin = [
   body("email")
     .not()
     .isEmpty()
@@ -59,11 +57,7 @@ exports.validateLogin = [
     .isEmpty()
     .withMessage(responseMessage.validationMessage.emptyPassword)
     .isLength({ min: 8, max: 15 })
-    .withMessage(responseMessage.validationMessage.invalidPassword)
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
-    )
-    .withMessage(responseMessage.validationMessage.invalidPassword),
+    .withMessage(responseMessage.validationMessage.invalidPasswordLength),
   (req, res, next) => {
     sendResponse(req, res, next);
   },

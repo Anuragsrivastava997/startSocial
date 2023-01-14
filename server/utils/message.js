@@ -8,6 +8,7 @@ const responseMessage = {
     userRegistered: `new user registered!`,
     unAuthorised: `User not logged in!`,
     invalidToken: "Invalid token",
+    wrongPassword: `Incorrect password`,
   },
   validationMessage: {
     emptyEmail: `${empty} email`,
@@ -17,6 +18,31 @@ const responseMessage = {
     emptyPassword: `${empty} password`,
     invalidPasswordLength: `Password must be at least 8 and max 15 characters`,
     invalidPassword: `Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character`,
+  },
+  userMessage: {
+    registered: "User registered",
+    loggedIn: "User logged in",
+    notFound: "User not found",
+    invalidId: `${provide} user id`,
+  },
+  postMessage: {
+    created: "Post created",
+    updated: "Post updated",
+    invalidId: `${provide} post id`,
+    notFound: "Post not found",
+    deleted: "Post deleted",
+    alreadyDeleted: "Post already deleted",
+  },
+  eventMessage: {
+    inValidId: `${provide} post id or user id`,
+    inValid: `${provide} event id`,
+    created: "Event created",
+    updated: "Event updated",
+    deleted: "Event deleted",
+    notFound: "Event not found",
+  },
+  other: {
+    interServerErr: "Internal server error",
   },
 };
 
