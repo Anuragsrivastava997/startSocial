@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import Event from "../models/eventModels";
-import Post from "../models/postModels";
-import User from "../models/userModels";
-import catchAsync from "../utils/catchAsyncError";
-import { sendResponse } from "../utils/commonFunctions";
-import responseMessage from "../utils/message";
+import Event from "../models/eventModels.js";
+import Post from "../models/postModels.js";
+import User from "../models/userModels.js";
+import catchAsync from "../utils/catchAsyncError.js";
+import { sendResponse } from "../utils/commonFunctions.js";
+import responseMessage from "../utils/message.js";
 
 export const create = catchAsync(async (req, res) => {
   let post = {};
@@ -25,12 +25,15 @@ export const create = catchAsync(async (req, res) => {
 
   post = await Post.create(post);
 
-  return sendResponse(res, 201, { msg: responseMessage.postMessage.created });
+  return sendResponse(res, 201, {
+    msg: responseMessage.postMessage.created,
+    data: post,
+  });
 });
 
 export const getAll = catchAsync(async (req, res) => {
-  let posts = await Post.find({ isDeleted: true });
-  return sendResponse(res, 200, { posts });
+  let posts = await Post.find({ isDeleted: false });
+  return sendResponse(res, 200, { data: posts });
 });
 
 export const getOne = catchAsync(async (req, res) => {
@@ -47,20 +50,24 @@ export const getOne = catchAsync(async (req, res) => {
 
 export const update = catchAsync(async (req, res) => {
   let post = {};
-  const { id, content, location } = req.body;
+  let postToBeUpdated = {};
+
+  const { id } = req.params;
+  const { content, location } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return sendResponse(res, 400, responseMessage.postMessage.invalidId);
 
-  post = await Post.findOne({ _id: id, isDeleted: false });
+  post = await Post.findOne({ _id: id });
   if (!post)
     return sendResponse(res, 404, responseMessage.postMessage.notFound);
 
-  post = {
-    content,
-    location,
+  postToBeUpdated = {
+    content: content,
+    location: location,
   };
-  post = await Post.findOneAndUpdate({ _id: id }, { post }, { new: true });
+
+  post = await Post.findByIdAndUpdate(id, postToBeUpdated, { new: true });
 
   return sendResponse(res, 200, {
     msg: responseMessage.postMessage.updated,
@@ -89,7 +96,7 @@ export const deletePost = catchAsync(async (req, res) => {
       msg: responseMessage.postMessage.alreadyDeleted,
     });
 
-  post = await Post.findOneAndUpdate({ _id: id }, { isDeleted: true });
+  post = await Post.findByIdAndUpdate(id, { isDeleted: true });
 
   return sendResponse(res, 200, {
     msg: responseMessage.postMessage.deleted,
@@ -115,7 +122,7 @@ export const addAction = catchAsync(async (req, res) => {
     post_type: post_type,
   };
 
-  post = await Post.create(post);
+  post = await Event.create(post);
   return sendResponse(res, 201, { msg: `${type} successfully!` });
 });
 
