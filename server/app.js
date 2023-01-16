@@ -14,6 +14,7 @@ const __dirname = path.dirname(__filename);
 
 // Importing routes
 import authRouter from "./Routes/authRoutes.js";
+import postRouter from "./routes/postRoutes.js";
 
 // Middlewares
 app.use(express.json({ limit: "30mb", extended: true }));
@@ -30,5 +31,6 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 
 export default app;
