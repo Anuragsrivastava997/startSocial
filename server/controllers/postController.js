@@ -105,7 +105,7 @@ export const deletePost = catchAsync(async (req, res) => {
 
 export const addAction = catchAsync(async (req, res) => {
   let post = {};
-  const { post_id, user_id, type, post_type } = req.body;
+  const { post_id, user_id, type, post_type, content } = req.body;
 
   if (
     !mongoose.Types.ObjectId.isValid(post_id) ||
@@ -118,6 +118,7 @@ export const addAction = catchAsync(async (req, res) => {
   post = {
     post_id: post_id,
     user_id: user_id,
+    content: content,
     type: type,
     post_type: post_type,
   };
