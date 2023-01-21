@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./scenes/homePage";
 import LoginPage from "./scenes/loginPage";
 import ProfilePage from "./scenes/profilePage";
-import NavBar from "scenes/navbar";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -20,7 +19,6 @@ function App() {
         <CssBaseline />
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/navbar" element={<NavBar />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/:userid" element={<ProfilePage />} />
         </Routes>

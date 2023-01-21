@@ -6,7 +6,7 @@ const postRouter = express.Router();
 
 postRouter.post("/create", verifyToken, postController.create);
 postRouter.get("/all", verifyToken, postController.getAll);
-postRouter.get("/:id", verifyToken, postController.getOne);
+postRouter.get("/single/:id", verifyToken, postController.getOne);
 postRouter.patch("/update/:id", verifyToken, postController.update);
 postRouter.delete("/delete/:id", verifyToken, postController.deletePost);
 

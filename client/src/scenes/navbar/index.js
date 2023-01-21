@@ -31,7 +31,7 @@ const NavBar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // getting the user from state
-  const isNonMobileScreen = useMediaQuery("(max-width: 1000px)");
+  const isNonMobileScreen = useMediaQuery("(min-width: 1000px)");
   const user = useSelector((state) => state.user);
   const fullName = "Anurag";
 
@@ -66,7 +66,7 @@ const NavBar = () => {
         >
           StartSocial
         </Typography>
-        {!isNonMobileScreen && (
+        {isNonMobileScreen && (
           <FlexBetween
             backgroundColor={neutralLight}
             borderRadius="9px"
@@ -82,7 +82,7 @@ const NavBar = () => {
       </FlexBetween>
 
       {/* Desktop Nav */}
-      {!isNonMobileScreen ? (
+      {isNonMobileScreen ? (
         <FlexBetween gap="2rem">
           <IconButton onClick={() => dispatch(setMode(""))}>
             {theme.palette.mode === "dark" ? (
@@ -126,7 +126,7 @@ const NavBar = () => {
       )}
 
       {/* Mobile Nav */}
-      {isNonMobileScreen && isMobileOpen && (
+      {!isNonMobileScreen && isMobileOpen && (
         <Box
           position="fixed"
           right="0"

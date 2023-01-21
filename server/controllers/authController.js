@@ -7,6 +7,7 @@ import User from "../models/userModels.js";
 export const register = catchAsync(async (req, res) => {
   let user = {};
   let hashedPassword = "";
+  let alreadyUser = {};
   const { name, email, contact, password } = req.body;
 
   if (!name || !email || !contact || !password)
@@ -14,6 +15,13 @@ export const register = catchAsync(async (req, res) => {
       msg: responseMessage.authMessage.invalidDetails,
     });
 
+  alreadyUser = await User.exists({
+    $or: [{ email: email }, { contact: contact }],
+  });
+  if (alreadyUser)
+    return sendResponse(res, 400, {
+      msg: responseMessage.authMessage.emailOrContactAlreadyExists,
+    });
   hashedPassword = await bcrypt.hash(password, 10);
 
   user = {
