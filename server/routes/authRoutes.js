@@ -2,11 +2,13 @@ import express from "express";
 import * as authController from "../controllers/authController.js";
 import { verifyToken } from "../middleware/authVerify.js";
 import * as validation from "../middleware/validator.js";
+import { uploadProfile } from "../utils/commonFunctions.js";
 
 const authRouter = express.Router();
 
 authRouter.post(
   "/register",
+  uploadProfile,
   validation.validateSignup,
   authController.register
 );
