@@ -4,6 +4,7 @@ import Post from "../models/postModels.js";
 import User from "../models/userModels.js";
 import catchAsync from "../utils/catchAsyncError.js";
 import { sendResponse } from "../utils/commonFunctions.js";
+import { reduceWithImageMin } from "../utils/imageQualityReducer.js";
 import responseMessage from "../utils/message.js";
 
 export const create = catchAsync(async (req, res) => {
@@ -23,7 +24,14 @@ export const create = catchAsync(async (req, res) => {
     location: location,
   };
 
-  post = await Post.create(post);
+  if (req.file) {
+    post.attachments = await reduceWithImageMin(
+      req.file.buffer,
+      req.file.originalname
+    );
+  }
+
+  // post = await Post.create(post);
 
   return sendResponse(res, 201, {
     msg: responseMessage.postMessage.created,

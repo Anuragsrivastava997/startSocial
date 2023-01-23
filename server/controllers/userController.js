@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import User from "../models/userModels";
-import catchAsync from "../utils/catchAsyncError";
-import { sendResponse } from "../utils/commonFunctions";
-import responseMessage from "../utils/message";
+import User from "../models/userModels.js";
+import catchAsync from "../utils/catchAsyncError.js";
+import { sendResponse } from "../utils/commonFunctions.js";
+import responseMessage from "../utils/message.js";
 
 export const getUser = catchAsync(async (req, res) => {
   let user = {};
@@ -14,7 +14,8 @@ export const getUser = catchAsync(async (req, res) => {
     });
 
   user = await User.findById(id);
-  delete user._doc.password;
+  user = user._doc;
+  delete user.password;
 
-  return sendResponse(res, 200, user);
+  return sendResponse(res, 200, { data: user });
 });

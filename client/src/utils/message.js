@@ -1,5 +1,6 @@
 const provide = "Please provide valid";
 const empty = "Please enter";
+const isRequired = "is required !";
 
 const responseMessage = {
   authMessage: {
@@ -9,7 +10,6 @@ const responseMessage = {
     unAuthorised: `User not logged in!`,
     invalidToken: "Invalid token",
     wrongPassword: `Incorrect password`,
-    emailOrContactAlreadyExists: "Email or Phone number already exists",
   },
   validationMessage: {
     emptyEmail: `${empty} email`,
@@ -41,6 +41,15 @@ const responseMessage = {
     updated: "Event updated",
     deleted: "Event deleted",
     notFound: "Event not found",
+  },
+  requiredMessage: {
+    name: `Name ${isRequired}`,
+    email: `Email ${isRequired}`,
+    contact: `Contact ${isRequired}`,
+    password: `Password ${isRequired}`,
+    location: `Location ${isRequired}`,
+    occupation: `Occupation ${isRequired}`,
+    picture: `Picture ${isRequired}`,
   },
   other: {
     interServerErr: "Internal server error",

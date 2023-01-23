@@ -3,17 +3,35 @@ import { sendResponse } from "../utils/commonFunctions.js";
 import responseMessage from "../utils/message.js";
 import bcrypt from "bcrypt";
 import User from "../models/userModels.js";
+import { reduceWithImageMin } from "../utils/imageQualityReducer.js";
 
 export const register = catchAsync(async (req, res) => {
   let user = {};
   let hashedPassword = "";
-  const { name, email, contact, password } = req.body;
+  let alreadyUser = {};
+  const {
+    name,
+    email,
+    contact,
+    password,
+    location,
+    occupation,
+    relationshipStatus,
+    profilePic,
+  } = req.body;
 
   if (!name || !email || !contact || !password)
     return sendResponse(res, 400, {
       msg: responseMessage.authMessage.invalidDetails,
     });
 
+  alreadyUser = await User.exists({
+    $or: [{ email: email }, { contact: contact }],
+  });
+  if (alreadyUser)
+    return sendResponse(res, 400, {
+      msg: responseMessage.authMessage.emailOrContactAlreadyExists,
+    });
   hashedPassword = await bcrypt.hash(password, 10);
 
   user = {
@@ -21,7 +39,17 @@ export const register = catchAsync(async (req, res) => {
     email,
     contact,
     password: hashedPassword,
+    location,
+    occupation,
+    relationshipStatus,
   };
+
+  if (req.file) {
+    user.profilePic = await reduceWithImageMin(
+      req.file.buffer,
+      req.file.originalname
+    );
+  }
 
   user = await User.create(user);
   console.log(user, "user");
