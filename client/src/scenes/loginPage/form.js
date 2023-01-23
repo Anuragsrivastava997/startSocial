@@ -36,7 +36,7 @@ const initiativeRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  profilePic: "",
 };
 
 const initiativeLogin = {
@@ -81,11 +81,16 @@ const Form = () => {
         })
       );
     }
-    navigate("/home");
+    // navigate("/home");
   };
 
   const saveRegister = async (values, onSubmitProps) => {
-    values.picturePath = values.picture.name;
+    const formData = new FormData();
+
+    for (let value in values) {
+      formData.append(value, values[value]);
+    }
+
     const registeredUser = await registerApi(values);
     if (registeredUser.token) {
       toast.success(registeredUser.msg, {
@@ -109,7 +114,7 @@ const Form = () => {
         })
       );
     }
-    navigate("/home");
+    // navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -198,7 +203,7 @@ const Form = () => {
                     acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
+                      setFieldValue("profilePic", acceptedFiles[0])
                     }
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -209,14 +214,14 @@ const Form = () => {
                         sx={{ "& :hover": { cursor: "pointer" } }}
                       >
                         <input {...getInputProps()} />
-                        {!values.picture ? (
+                        {!values.profilePic ? (
                           <p>
                             Drag 'n' drop some files here, or click to select
                             files
                           </p>
                         ) : (
                           <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
+                            <Typography>{values.profilePic.name}</Typography>
                             <EditOutlinedIcon />
                           </FlexBetween>
                         )}

@@ -15,14 +15,21 @@ export const sendResponse = (res, status, jsonData, jwt = false) => {
   return res.status(status).json({ token, ...jsonData });
 };
 
-const uniqueTime = Date.now();
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/assets");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${uniqueTime}-${file.originalname}`);
-  },
+const multerFilter = (req, file, cb) => {
+  const whitelist = ["image/png", "image/jpeg", "image/jpg"];
+  if (whitelist.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new AppError(401, "Only jpeg, png and jpg files are allowed"));
+  }
+};
+
+const multerStorage = multer.memoryStorage();
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
 });
 
-export const upload = multer({ storage });
+export const uploadImage = upload.single("picture");
+export const uploadProfile = upload.single("profilePic");

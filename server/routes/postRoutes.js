@@ -1,10 +1,11 @@
 import express from "express";
 import * as postController from "../controllers/postController.js";
 import { verifyToken } from "../middleware/authVerify.js";
+import { uploadImage } from "../utils/commonFunctions.js";
 
 const postRouter = express.Router();
 
-postRouter.post("/create", verifyToken, postController.create);
+postRouter.post("/create", uploadImage, verifyToken, postController.create);
 postRouter.get("/all", verifyToken, postController.getAll);
 postRouter.get("/single/:id", verifyToken, postController.getOne);
 postRouter.patch("/update/:id", verifyToken, postController.update);

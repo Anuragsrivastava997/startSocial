@@ -16,7 +16,7 @@ const validateRegister = yup.object().shape({
     ),
   location: yup.string().required(responseMessage.requiredMessage.location),
   occupation: yup.string().required(responseMessage.requiredMessage.occupation),
-  picture: yup.string().required(responseMessage.requiredMessage.p),
+  profilePic: yup.string().required(responseMessage.requiredMessage.picture),
 });
 
 export default validateRegister;
