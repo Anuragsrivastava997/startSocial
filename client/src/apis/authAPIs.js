@@ -1,5 +1,4 @@
 import axios from "axios";
-import { hashingPassword } from "utils/commonFunction";
 import { REGISTER_URL, LOGIN_URL } from "utils/default";
 
 export const loginApi = (values) => {

@@ -32,7 +32,7 @@ export const register = catchAsync(async (req, res) => {
     return sendResponse(res, 400, {
       msg: responseMessage.authMessage.emailOrContactAlreadyExists,
     });
-  // hashedPassword = await bcrypt.hash(password, 10);
+  hashedPassword = await bcrypt.hash(password, 10);
 
   user = {
     name,

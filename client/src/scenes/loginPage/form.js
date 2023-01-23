@@ -81,7 +81,7 @@ const Form = () => {
         })
       );
     }
-    // navigate("/home");
+    navigate("/home");
   };
 
   const saveRegister = async (values, onSubmitProps) => {
@@ -110,11 +110,11 @@ const Form = () => {
       dispatch(
         setlogin({
           token: registeredUser.token,
-          user: registeredUser.user,
+          user: registeredUser.data,
         })
       );
     }
-    // navigate("/home");
+    navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

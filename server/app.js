@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 // Importing routes
 import authRouter from "./Routes/authRoutes.js";
 import postRouter from "./routes/postRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 // Middlewares
 app.use(express.json({ limit: "30mb", extended: true }));
@@ -23,7 +24,7 @@ app.use(cors());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use(express.static("public"));
 
 // Routes
 app.get("/test", (req, res) => {
@@ -32,5 +33,6 @@ app.get("/test", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
+app.use("/user", userRouter);
 
 export default app;
