@@ -41,6 +41,10 @@ const UserWidget = ({ userId, picturePath }) => {
     return null;
   }
 
+  const profileImage = picturePath
+    ? `${BASE_URL}/${picturePath}`
+    : `../assets/blank_profile.webp`;
+
   const { name, friend, location, occupation, relationshipStatus } = user;
 
   return (
@@ -52,7 +56,7 @@ const UserWidget = ({ userId, picturePath }) => {
       >
         {/* First Row */}
         <FlexBetween gap="1rem">
-          <UserImage image={`${BASE_URL}/${picturePath}`} username={name} />
+          <UserImage image={profileImage} username={name} />
           <Box>
             <Typography
               variant="h4"

@@ -39,6 +39,10 @@ function MyPostWidget({ picture }) {
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
+  const profileImage = profilePic
+    ? `${BASE_URL}/${profilePic}`
+    : `../assets/blank_profile.webp`;
+
   const handlePost = async () => {
     const formData = new FormData();
 
@@ -71,7 +75,7 @@ function MyPostWidget({ picture }) {
     <WidgetWrapper>
       <ToastContainer />
       <FlexBetween gap="1rem">
-        <UserImage image={`${BASE_URL}/${profilePic}`} />
+        <UserImage image={profileImage} />
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}

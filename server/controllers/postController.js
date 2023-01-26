@@ -134,11 +134,11 @@ export const deletePost = catchAsync(async (req, res) => {
 
 export const addComment = catchAsync(async (req, res) => {
   let post = {};
-  const { post_id, user_id, type, post_type, content } = req.body;
+  const { post_id, user_id, type, post_type, content, parent_post } = req.body;
 
   console.log(post_id, user_id, type, post_type, content);
   if (
-    !mongoose.Types.ObjectId.isValid(post_id) &&
+    !mongoose.Types.ObjectId.isValid(parent_post) &&
     !mongoose.Types.ObjectId.isValid(user_id)
   ) {
     return sendResponse(res, 400, {
@@ -147,7 +147,7 @@ export const addComment = catchAsync(async (req, res) => {
   }
 
   post = {
-    post_id: post_id,
+    post_id: parent_post,
     user_id: user_id,
     content: content,
     type: type,
@@ -163,13 +163,15 @@ export const addComment = catchAsync(async (req, res) => {
     ...aggregationCondition,
   ]);
 
+  console.log(post);
   return sendResponse(res, 201, { msg: `${type} successfully!`, data: post });
 });
 
 export const removeComment = catchAsync(async (req, res) => {
   let post = {};
   const { id } = req.params;
-  const { user_id } = req.body;
+  const { user_id, post_id } = req.body;
+  let alreadyPost = {};
 
   if (
     !mongoose.Types.ObjectId.isValid(id) ||
@@ -179,8 +181,8 @@ export const removeComment = catchAsync(async (req, res) => {
       msg: responseMessage.eventMessage.inValid,
     });
 
-  post = await Event.findOne({ _id: id });
-  if (!post)
+  alreadyPost = await Event.findOne({ _id: id });
+  if (!alreadyPost)
     return sendResponse(res, 400, {
       msg: responseMessage.eventMessage.notFound,
     });
@@ -190,6 +192,7 @@ export const removeComment = catchAsync(async (req, res) => {
     { isDeleted: true },
     { new: true }
   );
+
   post = await Post.aggregate([
     {
       $match: { isDeleted: false, _id: mongoose.Types.ObjectId(post_id) },
@@ -198,7 +201,7 @@ export const removeComment = catchAsync(async (req, res) => {
   ]);
 
   return sendResponse(res, 200, {
-    msg: responseMessage.eventMessage.deleted,
+    msg: `${alreadyPost.type} deleted successfully!`,
     data: post,
   });
 });
@@ -237,7 +240,7 @@ export const handleLike = catchAsync(async (req, res) => {
 
   postToBeSent = await Post.aggregate([
     {
-      $match: { isDeleted: false, _id: mongoose.Types.ObjectId(post_id) },
+      $match: { isDeleted: false, _id: mongoose.Types.ObjectId(id) },
     },
     ...aggregationCondition,
   ]);
