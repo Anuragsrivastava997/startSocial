@@ -7,6 +7,10 @@ const PostSchema = new mongoose.Schema(
     location: { type: String },
     attachments: { type: String },
     isDeleted: { type: Boolean, default: false },
+    likes: {
+      type: Map,
+      of: Boolean,
+    },
   },
   { timestamps: true }
 );

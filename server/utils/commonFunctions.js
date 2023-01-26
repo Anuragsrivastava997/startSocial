@@ -1,5 +1,6 @@
 import multer from "multer";
 import jwt from "jsonwebtoken";
+import AppError from "./appError.js";
 
 const jwtToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
@@ -16,7 +17,16 @@ export const sendResponse = (res, status, jsonData, jwt = false) => {
 };
 
 const multerFilter = (req, file, cb) => {
-  const whitelist = ["image/png", "image/jpeg", "image/jpg"];
+  const whitelist = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "video/mp4",
+    "video/quicktime",
+    "audio/mpeg",
+    "audio/mp4",
+    "image/gif",
+  ];
   if (whitelist.includes(file.mimetype)) {
     cb(null, true);
   } else {
@@ -31,5 +41,5 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-export const uploadImage = upload.single("picture");
+export const uploadImage = upload.single("attachments");
 export const uploadProfile = upload.single("profilePic");

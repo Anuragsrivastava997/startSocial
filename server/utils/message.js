@@ -25,6 +25,8 @@ const responseMessage = {
     loggedIn: "User logged in",
     notFound: "User not found",
     invalidId: `${provide} user id`,
+    friendAdded: "Friend added",
+    friendRemoved: "Friend removed",
   },
   postMessage: {
     created: "Post created",
@@ -33,6 +35,8 @@ const responseMessage = {
     notFound: "Post not found",
     deleted: "Post deleted",
     alreadyDeleted: "Post already deleted",
+    liked: "Post liked",
+    likeRemoved: "Post like removed",
   },
   eventMessage: {
     inValidId: `${provide} post id or user id`,

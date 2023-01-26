@@ -2,21 +2,26 @@ import imagemin from "imagemin";
 import mozJpeg from "imagemin-mozjpeg";
 import fs from "fs";
 
-export const reduceWithImageMin = async function (imageBuffer, filename) {
-  const uniqueFieName = Date.now() + ".jpeg";
-  const filepath = `assets/${uniqueFieName}`;
+export const reduceWithImageMin = async function (
+  imageBuffer,
+  filename,
+  mimetype
+) {
+  const extension = filename.split(".").pop();
+  const uniqueFieName = Date.now() + "." + extension;
+  let filepath = `public/assets/${uniqueFieName}`;
 
-  const reducedImage = await imagemin.buffer(imageBuffer, {
-    plugins: [mozJpeg({ quality: 80 })],
-  });
+  let imageType = ["image/png", "image/jpeg", "image/jpg"];
 
-  fs.writeFileSync(filepath, reducedImage);
+  let updatedImageBuffer = imageBuffer;
+
+  if (imageType.includes(mimetype)) {
+    updatedImageBuffer = await imagemin.buffer(imageBuffer, {
+      plugins: [mozJpeg({ quality: 80 })],
+    });
+  }
+
+  fs.writeFileSync(filepath, updatedImageBuffer);
+  filepath = `assets/${uniqueFieName}`;
   return filepath;
-};
-
-export const reduceWithImageThumbnail = async function (imageBuffer, filename) {
-  const reducedImage = await imagemin.buffer(imageBuffer, {
-    plugins: [mozJpeg({ quality: 80 })],
-  });
-  return reducedImage;
 };

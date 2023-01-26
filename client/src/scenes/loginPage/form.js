@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setlogin } from "state";
 import Dropzone from "react-dropzone";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -59,29 +60,28 @@ const Form = () => {
     const logggedIN = await loginApi(values);
     console.log(logggedIN, "res");
 
-    if (logggedIN.token) {
-      toast.success(logggedIN.msg, {
+    if (logggedIN.status === 200) {
+      toast.success(logggedIN.data.msg, {
         position: "top-right",
         autoClose: 5000,
       });
     } else {
-      toast.error(logggedIN.msg, {
+      toast.error(logggedIN.data.msg, {
         position: "top-right",
         autoClose: 5000,
       });
     }
     onSubmitProps.resetForm();
 
-    if (logggedIN) {
-      console.log("miracle");
+    if (logggedIN.status === 200) {
       dispatch(
         setlogin({
-          token: logggedIN.token,
-          user: logggedIN.data,
+          token: logggedIN.data.token,
+          user: logggedIN.data.data,
         })
       );
+      navigate("/home");
     }
-    navigate("/home");
   };
 
   const saveRegister = async (values, onSubmitProps) => {
@@ -92,13 +92,13 @@ const Form = () => {
     }
 
     const registeredUser = await registerApi(values);
-    if (registeredUser.token) {
-      toast.success(registeredUser.msg, {
+    if (registeredUser.status === 200) {
+      toast.success(registeredUser.data.msg, {
         position: "top-right",
         autoClose: 5000,
       });
     } else {
-      toast.error(registeredUser.msg, {
+      toast.error(registeredUser.data.msg, {
         position: "top-right",
         autoClose: 5000,
       });
@@ -109,8 +109,8 @@ const Form = () => {
     if (registeredUser) {
       dispatch(
         setlogin({
-          token: registeredUser.token,
-          user: registeredUser.data,
+          token: registeredUser.data.token,
+          user: registeredUser.data.data,
         })
       );
     }

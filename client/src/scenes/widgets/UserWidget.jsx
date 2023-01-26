@@ -4,6 +4,7 @@ import {
   EditOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
+  FavoriteBorderOutlined,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -79,11 +80,16 @@ const UserWidget = ({ userId, picturePath }) => {
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{location}</Typography>
         </Box>
-        <Box display="flex" alignItems="center" gap="1rem">
+        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
           <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{occupation}</Typography>
         </Box>
+        <Box display="flex" alignItems="center" gap="1rem">
+          <FavoriteBorderOutlined fontSize="large" sx={{ color: main }} />
+          <Typography color={medium}>{relationshipStatus}</Typography>
+        </Box>
       </Box>
+      <Divider />
 
       {/* Third Row */}
       <Box p="1rem 0">

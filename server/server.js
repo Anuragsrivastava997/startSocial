@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import os from "os";
+import cluster from "cluster";
 
 import app from "./app.js";
 dotenv.config();
@@ -22,5 +23,5 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`App listening on port ${PORT}`);
 });
