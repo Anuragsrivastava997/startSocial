@@ -1,4 +1,8 @@
-import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import {
+  PersonAddOutlined,
+  PersonRemoveOutlined,
+  DeleteForeverOutlined,
+} from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { addOrRemoveFriend, getUserFriend } from "apis/userApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +26,7 @@ function Friend({ friendId, name, subtitle, userPicture }) {
   const medium = palette.neutral.medium;
 
   const isFriend = friends?.some((friend) => friend._id === friendId);
+  const loggedInUserId = useSelector((state) => state.user._id);
 
   const addfriend = async () => {
     const body = {
@@ -32,6 +37,8 @@ function Friend({ friendId, name, subtitle, userPicture }) {
     const getFriends = await getUserFriend(_id, token);
     dispatch(setFriends({ friends: getFriends.data }));
   };
+
+  console.log(friendId, loggedInUserId, "user");
 
   return (
     <FlexBetween>
@@ -61,19 +68,31 @@ function Friend({ friendId, name, subtitle, userPicture }) {
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={addfriend}
-        sx={{
-          backgroundColor: primaryLight,
-          p: "0.6rem",
-        }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
+      <FlexBetween>
+        {friendId === loggedInUserId && (
+          <DeleteForeverOutlined
+            sx={{
+              marginLeft: "0.5rem",
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          />
         )}
-      </IconButton>
+        <IconButton
+          onClick={addfriend}
+          sx={{
+            backgroundColor: primaryLight,
+            p: "0.6rem",
+          }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+      </FlexBetween>
     </FlexBetween>
   );
 }

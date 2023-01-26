@@ -77,9 +77,10 @@ function PostWidget({
 
   const handleReplyApi = async () => {
     const data = {
-      post_id: commentId,
+      post_id: id,
       user_id: loggedInUserId,
       content: reply,
+      parent_post: commentId,
       type: "reply",
       post_type: "comment",
     };
@@ -98,7 +99,7 @@ function PostWidget({
       });
     }
 
-    setIsReply(!isReply);
+    setIsReply(false);
     setReply("");
   };
 
@@ -131,6 +132,7 @@ function PostWidget({
   const deleteCommentApi = async (commentID) => {
     const data = {
       user_id: loggedInUserId,
+      post_id: id,
     };
 
     const response = await deleteComment(commentID, data, token);
@@ -166,14 +168,19 @@ function PostWidget({
       });
     }
   };
+
+  const profieImage = profilePic
+    ? `${BASE_URL}/${profilePic}`
+    : `../assets/blank_profile.webp`;
+
   return (
     <WidgetWrapper m="2rem 0">
       <ToastContainer />
       <Friend
-        friendId={postUserId}
+        friendId={user_id}
         name={name}
         subtitle={location}
-        userPicture={`${BASE_URL}/${profilePic}`}
+        userPicture={profieImage}
       />
       <Typography color={main} sx={{ mt: "1rem" }}>
         {content}
@@ -274,7 +281,7 @@ function PostWidget({
               </FlexBetween>
               <Divider />
               {comment?.replies?.map((reply) => (
-                <>
+                <div key={reply._id}>
                   <FlexBetween ml="5rem">
                     <FlexBetween>
                       <ReplyOutlined />
@@ -299,7 +306,7 @@ function PostWidget({
                     />
                   </FlexBetween>
                   <Divider />
-                </>
+                </div>
               ))}
             </Box>
           ))}
