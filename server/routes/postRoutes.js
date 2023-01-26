@@ -7,16 +7,18 @@ const postRouter = express.Router();
 
 postRouter.post("/create", uploadImage, verifyToken, postController.create);
 postRouter.get("/all", verifyToken, postController.getAll);
+postRouter.get("/user/:userId", verifyToken, postController.getPostsByUserId);
 postRouter.get("/single/:id", verifyToken, postController.getOne);
 postRouter.patch("/update/:id", verifyToken, postController.update);
 postRouter.delete("/delete/:id", verifyToken, postController.deletePost);
 
 // post events
-postRouter.post("/action/add", verifyToken, postController.addAction);
-postRouter.delete(
-  "/action/remove/:id",
+postRouter.post("/comment/add", verifyToken, postController.addComment);
+postRouter.post(
+  "/comment/remove/:id",
   verifyToken,
-  postController.removeAction
+  postController.removeComment
 );
+postRouter.patch("/like/:id", verifyToken, postController.handleLike);
 
 export default postRouter;
