@@ -41,9 +41,9 @@ export const deletePost = (id, auth) => {
     .catch((err) => err.response);
 };
 
-export const getUserPosts = (userId, auth) => {
+export const getUserPosts = (user_id, auth) => {
   return axios
-    .get(`${GET_USER_POSTS_URL}/${userId}`, {
+    .get(`${GET_USER_POSTS_URL}/${user_id}`, {
       headers: {
         Authorization: `Bearer ${auth}`,
       },

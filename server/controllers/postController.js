@@ -78,7 +78,12 @@ export const getPostsByUserId = catchAsync(async (req, res) => {
       msg: responseMessage.userMessage.invalidId,
     });
 
-  posts = await Post.find({ user_id: user_id, isDeleted: false });
+  posts = await Post.aggregate([
+    {
+      $match: { user_id: mongoose.Types.ObjectId(user_id), isDeleted: false },
+    },
+    ...aggregationCondition,
+  ]);
   return sendResponse(res, 200, { data: posts });
 });
 
@@ -149,7 +154,6 @@ export const addComment = catchAsync(async (req, res) => {
   let postId = "";
   const { post_id, user_id, type, post_type, content, parent_post } = req.body;
 
-  console.log(post_id, user_id, type, post_type, content, parent_post);
   if (
     !mongoose.Types.ObjectId.isValid(parent_post) &&
     !mongoose.Types.ObjectId.isValid(user_id)
