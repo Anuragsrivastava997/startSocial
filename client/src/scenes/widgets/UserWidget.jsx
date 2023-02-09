@@ -80,18 +80,24 @@ const UserWidget = ({ userId, picturePath }) => {
 
       {/* Second Row */}
       <Box p="1rem 0">
-        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-          <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{location}</Typography>
-        </Box>
-        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-          <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{occupation}</Typography>
-        </Box>
-        <Box display="flex" alignItems="center" gap="1rem">
-          <FavoriteBorderOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{relationshipStatus}</Typography>
-        </Box>
+        {location && (
+          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <LocationOnOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{location}</Typography>
+          </Box>
+        )}
+        {occupation && (
+          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{occupation}</Typography>
+          </Box>
+        )}
+        {relationshipStatus && (
+          <Box display="flex" alignItems="center" gap="1rem">
+            <FavoriteBorderOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{relationshipStatus}</Typography>
+          </Box>
+        )}
       </Box>
       <Divider />
 
