@@ -4,6 +4,7 @@ import {
   EditOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
+  FavoriteBorderOutlined,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -40,6 +41,10 @@ const UserWidget = ({ userId, picturePath }) => {
     return null;
   }
 
+  const profileImage = picturePath
+    ? `${BASE_URL}/${picturePath}`
+    : `../assets/blank_profile.webp`;
+
   const { name, friend, location, occupation, relationshipStatus } = user;
 
   return (
@@ -47,11 +52,11 @@ const UserWidget = ({ userId, picturePath }) => {
       <FlexBetween
         gap="0.5rem"
         pb="1.1rem"
-        onClick={() => navigate(`/user/${userId}`)}
+        onClick={() => navigate(`/profile/${userId}`)}
       >
         {/* First Row */}
         <FlexBetween gap="1rem">
-          <UserImage image={`${BASE_URL}/${picturePath}`} username={name} />
+          <UserImage image={profileImage} username={name} />
           <Box>
             <Typography
               variant="h4"
@@ -75,15 +80,26 @@ const UserWidget = ({ userId, picturePath }) => {
 
       {/* Second Row */}
       <Box p="1rem 0">
-        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-          <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{location}</Typography>
-        </Box>
-        <Box display="flex" alignItems="center" gap="1rem">
-          <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{occupation}</Typography>
-        </Box>
+        {location && (
+          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <LocationOnOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{location}</Typography>
+          </Box>
+        )}
+        {occupation && (
+          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{occupation}</Typography>
+          </Box>
+        )}
+        {relationshipStatus && (
+          <Box display="flex" alignItems="center" gap="1rem">
+            <FavoriteBorderOutlined fontSize="large" sx={{ color: main }} />
+            <Typography color={medium}>{relationshipStatus}</Typography>
+          </Box>
+        )}
       </Box>
+      <Divider />
 
       {/* Third Row */}
       <Box p="1rem 0">
