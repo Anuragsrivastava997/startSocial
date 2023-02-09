@@ -27,8 +27,6 @@ const ProfilePage = () => {
     getUserData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(user, "user");
-
   if (!user) return null;
 
   return (
@@ -45,8 +43,6 @@ const ProfilePage = () => {
       >
         <Box flexBasis={isNonMobileScreen ? "26%" : undefined}>
           <UserWidget userId={userId} picturePath={user.profilePic} />
-          <Box m="2rem 0" />
-          <FriendListWidget userId={userId} />
         </Box>
 
         {/* Main Feed */}
