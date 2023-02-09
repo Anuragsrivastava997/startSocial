@@ -40,6 +40,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           profilePic={post.user.profilePic}
           likes={post.likes}
           comments={post.comment}
+          attachments={post.attachments}
         />
       ))}
     </>

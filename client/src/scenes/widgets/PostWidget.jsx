@@ -177,6 +177,7 @@ function PostWidget({
     <WidgetWrapper m="2rem 0">
       <ToastContainer />
       <Friend
+        post_id={id}
         friendId={user_id}
         name={name}
         subtitle={location}

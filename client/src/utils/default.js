@@ -19,5 +19,5 @@ export const LIKES_URL = `${BASE_URL}/post/like`;
 
 // user Urls
 export const GET_USER_URL = `${BASE_URL}/user/single`;
-export const GET_USER_FRIENDS_URL = `${BASE_URL}/user/all/friend/`;
+export const GET_USER_FRIENDS_URL = `${BASE_URL}/user/all/friend`;
 export const ADD_REMOVE_FRIEND_URL = `${BASE_URL}/user/action/friend`;

@@ -75,7 +75,9 @@ export const login = catchAsync(async (req, res) => {
       msg: responseMessage.authMessage.invalidDetails,
     });
 
-  user = await User.findOne({ email }).select("+password");
+  user = await User.findOne({ email })
+    .populate("friend", "_id name email")
+    .select("+password");
 
   if (!user)
     return sendResponse(res, 400, {
