@@ -6,6 +6,7 @@ import {
   ADD_COMMENT_URL,
   LIKES_URL,
   DELETE_COMMENT_URL,
+  DELETE_POST_URL,
 } from "utils/default";
 
 export const createPost = (data, auth) => {
@@ -29,9 +30,20 @@ export const getPosts = (auth) => {
     .then((res) => res.data);
 };
 
-export const getUserPosts = (userId, auth) => {
+export const deletePost = (id, auth) => {
   return axios
-    .get(`${GET_USER_POSTS_URL}/${userId}`, {
+    .delete(`${DELETE_POST_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${auth}`,
+      },
+    })
+    .then((res) => res)
+    .catch((err) => err.response);
+};
+
+export const getUserPosts = (user_id, auth) => {
+  return axios
+    .get(`${GET_USER_POSTS_URL}/${user_id}`, {
       headers: {
         Authorization: `Bearer ${auth}`,
       },

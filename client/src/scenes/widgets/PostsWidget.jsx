@@ -15,7 +15,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   };
 
   const getAllUserPosts = async () => {
-    const res = await getUserPosts(token, userId);
+    const res = await getUserPosts(userId, token);
     dispatch(setPosts({ posts: res.data }));
   };
 
@@ -40,6 +40,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           profilePic={post.user.profilePic}
           likes={post.likes}
           comments={post.comment}
+          attachments={post.attachments}
         />
       ))}
     </>

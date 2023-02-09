@@ -4,20 +4,24 @@ import {
   DeleteForeverOutlined,
 } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { addOrRemoveFriend, getUserFriend } from "apis/userApi";
+import { deletePost } from "apis/postApi";
+import { addOrRemoveFriend } from "apis/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setFriends } from "state";
+import { setFriends, setPosts } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
-function Friend({ friendId, name, subtitle, userPicture }) {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function Friend({ friendId, name, subtitle, userPicture, post_id }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const friends = useSelector((state) => state.user.friend);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -30,19 +34,34 @@ function Friend({ friendId, name, subtitle, userPicture }) {
 
   const addfriend = async () => {
     const body = {
-      _id: _id,
-      friendId: friendId,
+      user_id: _id,
+      friend_id: friendId,
     };
-    await addOrRemoveFriend(body, token);
-    const getFriends = await getUserFriend(_id, token);
-    dispatch(setFriends({ friends: getFriends.data }));
+    const getFriends = await addOrRemoveFriend(body, token);
+    dispatch(setFriends({ friend: getFriends.data.friend }));
   };
 
-  console.log(friendId, loggedInUserId, "user");
+  const handleDeletePost = async () => {
+    const response = await deletePost(post_id, token);
+    console.log(response, "response");
+    if (response.status === 200) {
+      toast.success(response.data.msg, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+      dispatch(setPosts({ posts: response.data.data }));
+    } else {
+      toast.error(response.data.msg, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
+  };
 
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
+        <ToastContainer />
         <UserImage image={userPicture} size="55px" />
         <Box
           onClick={() => {
@@ -70,28 +89,37 @@ function Friend({ friendId, name, subtitle, userPicture }) {
       </FlexBetween>
       <FlexBetween>
         {friendId === loggedInUserId && (
-          <DeleteForeverOutlined
+          <IconButton
+            onClick={handleDeletePost}
             sx={{
-              marginLeft: "0.5rem",
-              "&:hover": {
-                cursor: "pointer",
-              },
+              backgroundColor: primaryLight,
+              p: "0.6rem",
             }}
-          />
+          >
+            <DeleteForeverOutlined
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+            />
+          </IconButton>
         )}
-        <IconButton
-          onClick={addfriend}
-          sx={{
-            backgroundColor: primaryLight,
-            p: "0.6rem",
-          }}
-        >
-          {isFriend ? (
-            <PersonRemoveOutlined sx={{ color: primaryDark }} />
-          ) : (
-            <PersonAddOutlined sx={{ color: primaryDark }} />
-          )}
-        </IconButton>
+        {friendId !== loggedInUserId && (
+          <IconButton
+            onClick={addfriend}
+            sx={{
+              backgroundColor: primaryLight,
+              p: "0.6rem",
+            }}
+          >
+            {isFriend ? (
+              <PersonRemoveOutlined sx={{ color: primaryDark }} />
+            ) : (
+              <PersonAddOutlined sx={{ color: primaryDark }} />
+            )}
+          </IconButton>
+        )}
       </FlexBetween>
     </FlexBetween>
   );

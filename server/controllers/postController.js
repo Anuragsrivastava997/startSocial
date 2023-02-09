@@ -48,7 +48,12 @@ export const create = catchAsync(async (req, res) => {
 });
 
 export const getAll = catchAsync(async (req, res) => {
-  let posts = await Post.aggregate([aggregationCondition]);
+  let posts = await Post.aggregate([
+    {
+      $match: { isDeleted: false },
+    },
+    ...aggregationCondition,
+  ]);
   return sendResponse(res, 200, { data: posts });
 });
 
@@ -73,7 +78,12 @@ export const getPostsByUserId = catchAsync(async (req, res) => {
       msg: responseMessage.userMessage.invalidId,
     });
 
-  posts = await Post.find({ user_id: user_id, isDeleted: false });
+  posts = await Post.aggregate([
+    {
+      $match: { user_id: mongoose.Types.ObjectId(user_id), isDeleted: false },
+    },
+    ...aggregationCondition,
+  ]);
   return sendResponse(res, 200, { data: posts });
 });
 
@@ -125,18 +135,25 @@ export const deletePost = catchAsync(async (req, res) => {
       msg: responseMessage.postMessage.alreadyDeleted,
     });
 
-  post = await Post.findByIdAndUpdate(id, { isDeleted: true });
+  post = await Post.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+  post = await Post.aggregate([
+    {
+      $match: { isDeleted: false },
+    },
+    ...aggregationCondition,
+  ]);
 
   return sendResponse(res, 200, {
     msg: responseMessage.postMessage.deleted,
+    data: post,
   });
 });
 
 export const addComment = catchAsync(async (req, res) => {
   let post = {};
+  let postId = "";
   const { post_id, user_id, type, post_type, content, parent_post } = req.body;
 
-  console.log(post_id, user_id, type, post_type, content);
   if (
     !mongoose.Types.ObjectId.isValid(parent_post) &&
     !mongoose.Types.ObjectId.isValid(user_id)
@@ -146,15 +163,16 @@ export const addComment = catchAsync(async (req, res) => {
     });
   }
 
+  postId = parent_post ? parent_post : post_id;
+
   post = {
-    post_id: parent_post,
+    post_id: postId,
     user_id: user_id,
     content: content,
     type: type,
     post_type: post_type,
   };
 
-  console.log(req.body, "body");
   post = await Event.create(post);
   post = await Post.aggregate([
     {

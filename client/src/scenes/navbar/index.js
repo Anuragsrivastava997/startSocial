@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router";
 import FlexBetween from "components/FlexBetween";
-import { color } from "@mui/system";
 
 const NavBar = () => {
   // setting mobile menu
@@ -32,8 +31,7 @@ const NavBar = () => {
 
   // getting the user from state
   const isNonMobileScreen = useMediaQuery("(min-width: 1000px)");
-  const user = useSelector((state) => state.user);
-  const fullName = "Anurag";
+  const fullName = useSelector((state) => state.user.name);
 
   console.log(isNonMobileScreen, "mobile screen");
 

@@ -13,8 +13,11 @@ export const getUser = catchAsync(async (req, res) => {
       msg: responseMessage.userMessage.invalidId,
     });
 
-  user = await User.findById(id);
-  user = user._doc;
+  user = await User.findById(id).populate(
+    "friend",
+    "_id name email  profilePic"
+  );
+
   delete user.password;
 
   return sendResponse(res, 200, { data: user });
@@ -29,15 +32,19 @@ export const getUserFriends = catchAsync(async (req, res) => {
       msg: responseMessage.userMessage.invalidId,
     });
 
-  user = await User.findById(id).populate("friend");
+  user = await User.findById(id).populate(
+    "friend",
+    "_id name email profilePic"
+  );
 
-  return sendResponse(res, 200, { data: user.friend });
+  return sendResponse(res, 200, { data: user });
 });
 
 export const addOrRemoveFriend = catchAsync(async (req, res) => {
   const { user_id, friend_id } = req.body;
   let update = {};
   let message = "";
+  let user = {};
 
   if (
     !mongoose.Types.ObjectId.isValid(user_id) ||
@@ -57,7 +64,12 @@ export const addOrRemoveFriend = catchAsync(async (req, res) => {
     message = responseMessage.userMessage.friendAdded;
   }
 
-  await User.findByIdAndUpdate(user_id, update, { new: true });
+  user = await User.findByIdAndUpdate(user_id, update, { new: true }).populate(
+    "friend",
+    "_id name email profilePic"
+  );
 
-  return sendResponse(res, 200, { msg: message });
+  console.log(user, "user");
+
+  return sendResponse(res, 200, { msg: message, data: user });
 });
