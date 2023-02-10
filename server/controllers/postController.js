@@ -7,13 +7,16 @@ import { sendResponse } from "../utils/commonFunctions.js";
 import { reduceWithImageMin } from "../utils/imageQualityReducer.js";
 import responseMessage from "../utils/message.js";
 
+// creating the post function
 export const create = catchAsync(async (req, res) => {
   let post = {};
   const { user_id, content, location, attachments } = req.body;
 
+  // if invalid user id then return error
   if (!mongoose.Types.ObjectId.isValid(user_id))
     return sendResponse(res, 400, responseMessage.userMessage.invalidId);
 
+  // find user and return if no user is found
   const user = await User.findOne({ _id: user_id });
   if (!user)
     return sendResponse(res, 400, responseMessage.userMessage.notFound);
@@ -25,6 +28,7 @@ export const create = catchAsync(async (req, res) => {
     likes: {},
   };
 
+  // if there's attachment then save the file in folder
   if (req.file) {
     post.attachments = await reduceWithImageMin(
       req.file.buffer,
@@ -33,7 +37,10 @@ export const create = catchAsync(async (req, res) => {
     );
   }
 
+  // create the post
   post = await Post.create(post);
+
+  // aggregate the posts and send the response
   post = await Post.aggregate([
     {
       $match: { isDeleted: false },
@@ -47,6 +54,7 @@ export const create = catchAsync(async (req, res) => {
   });
 });
 
+// function to get all the posts
 export const getAll = catchAsync(async (req, res) => {
   let posts = await Post.aggregate([
     {
@@ -57,6 +65,7 @@ export const getAll = catchAsync(async (req, res) => {
   return sendResponse(res, 200, { data: posts });
 });
 
+// function to get one post
 export const getOne = catchAsync(async (req, res) => {
   let post = {};
   const { id } = req.params;
@@ -69,6 +78,7 @@ export const getOne = catchAsync(async (req, res) => {
   return sendResponse(res, 200, { post });
 });
 
+// get posts by user id
 export const getPostsByUserId = catchAsync(async (req, res) => {
   const { user_id } = req.params;
   let posts = [];
@@ -87,6 +97,7 @@ export const getPostsByUserId = catchAsync(async (req, res) => {
   return sendResponse(res, 200, { data: posts });
 });
 
+// function to update a post
 export const update = catchAsync(async (req, res) => {
   let post = {};
   let postToBeUpdated = {};
@@ -114,6 +125,7 @@ export const update = catchAsync(async (req, res) => {
   });
 });
 
+// function to delete a post
 export const deletePost = catchAsync(async (req, res) => {
   let post = {};
   const { id } = req.params;
@@ -149,6 +161,7 @@ export const deletePost = catchAsync(async (req, res) => {
   });
 });
 
+// function to add the comment and reply
 export const addComment = catchAsync(async (req, res) => {
   let post = {};
   let postId = "";
@@ -181,10 +194,10 @@ export const addComment = catchAsync(async (req, res) => {
     ...aggregationCondition,
   ]);
 
-  console.log(post);
   return sendResponse(res, 201, { msg: `${type} successfully!`, data: post });
 });
 
+// function to remove the comment and reply
 export const removeComment = catchAsync(async (req, res) => {
   let post = {};
   const { id } = req.params;
@@ -224,6 +237,7 @@ export const removeComment = catchAsync(async (req, res) => {
   });
 });
 
+// function to like / dislike a post
 export const handleLike = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { user_id } = req.body;
@@ -269,6 +283,7 @@ export const handleLike = catchAsync(async (req, res) => {
   });
 });
 
+// common aggregation condition
 const aggregationCondition = [
   {
     $lookup: {

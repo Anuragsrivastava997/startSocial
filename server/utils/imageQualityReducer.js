@@ -2,6 +2,7 @@ import imagemin from "imagemin";
 import mozJpeg from "imagemin-mozjpeg";
 import fs from "fs";
 
+// image quallity reduce and handling different attachmentss
 export const reduceWithImageMin = async function (
   imageBuffer,
   filename,

@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import responseMessage from "utils/message";
 
+// using yup to validate register form data
 const validateRegister = yup.object().shape({
   name: yup.string().required(responseMessage.requiredMessage.name),
   email: yup.string().email(responseMessage.requiredMessage.email),

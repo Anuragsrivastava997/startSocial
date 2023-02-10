@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import responseMessage from "utils/message";
 
+// using yup for validation for login form
 const validateLogin = yup.object().shape({
   email: yup
     .string()

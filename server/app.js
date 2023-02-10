@@ -26,11 +26,12 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-// Routes
+// test routes
 app.get("/test", (req, res) => {
   res.send("working");
 });
 
+// getting the routes
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);

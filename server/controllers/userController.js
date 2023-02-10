@@ -4,6 +4,7 @@ import catchAsync from "../utils/catchAsyncError.js";
 import { sendResponse } from "../utils/commonFunctions.js";
 import responseMessage from "../utils/message.js";
 
+// function to get selected user with friends
 export const getUser = catchAsync(async (req, res) => {
   let user = {};
   const { id } = req.params;
@@ -23,6 +24,7 @@ export const getUser = catchAsync(async (req, res) => {
   return sendResponse(res, 200, { data: user });
 });
 
+// function to friends of selected user
 export const getUserFriends = catchAsync(async (req, res) => {
   const { id } = req.params;
   let user = {};
@@ -40,6 +42,7 @@ export const getUserFriends = catchAsync(async (req, res) => {
   return sendResponse(res, 200, { data: user });
 });
 
+// function to add and remove friend
 export const addOrRemoveFriend = catchAsync(async (req, res) => {
   const { user_id, friend_id } = req.body;
   let update = {};

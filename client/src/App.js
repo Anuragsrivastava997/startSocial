@@ -16,8 +16,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      {/* providing theme to the whole app */}
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        {/* Routing for the whole application */}
         <Routes>
           <Route path="/" element={isAuth ? <HomePage /> : <LoginPage />} />
           <Route

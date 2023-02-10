@@ -1,14 +1,12 @@
-import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import os from "os";
-import cluster from "cluster";
 
 import app from "./app.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
+// connecting to the database
 mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.DB_URL.replace("<password>", process.env.DB_PASSWORD), {
@@ -22,6 +20,7 @@ mongoose
     console.log(err.message);
   });
 
+//starting the server
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
