@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { sendResponse } from "../utils/commonFunctions.js";
 import responseMessage from "../utils/message.js";
 
+// verifying the token
 export const verifyToken = (req, res, next) => {
   let token = req.headers["authorization"];
 
