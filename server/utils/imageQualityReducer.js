@@ -1,23 +1,23 @@
-import imagemin from "imagemin";
-import mozJpeg from "imagemin-mozjpeg";
-import fs from "fs";
+import imagemin from 'imagemin';
+import mozJpeg from 'imagemin-mozjpeg';
+import fs from 'node:fs';
 
-export const reduceWithImageMin = async function (
-  imageBuffer,
-  filename,
-  mimetype
+export const reduceWithImageMin = async function(
+    imageBuffer,
+    filename,
+    mimetype,
 ) {
-  const extension = filename.split(".").pop();
-  const uniqueFieName = Date.now() + "." + extension;
+  const extension = filename.split('.').pop();
+  const uniqueFieName = Date.now() + '.' + extension;
   let filepath = `public/assets/${uniqueFieName}`;
 
-  let imageType = ["image/png", "image/jpeg", "image/jpg"];
+  const imageType = ['image/png', 'image/jpeg', 'image/jpg'];
 
   let updatedImageBuffer = imageBuffer;
 
   if (imageType.includes(mimetype)) {
     updatedImageBuffer = await imagemin.buffer(imageBuffer, {
-      plugins: [mozJpeg({ quality: 80 })],
+      plugins: [mozJpeg({quality: 80})],
     });
   }
 

@@ -2,15 +2,15 @@ import {
   PersonAddOutlined,
   PersonRemoveOutlined,
   DeleteForeverOutlined,
-} from "@mui/icons-material";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { addOrRemoveFriend, getUserFriend } from "apis/userApi";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+} from '@mui/icons-material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { addOrRemoveFriend, getUserFriend } from 'apis/userApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { setFriends } from "state";
-import FlexBetween from "./FlexBetween";
-import UserImage from "./UserImage";
+import { setFriends } from 'state';
+import FlexBetween from './FlexBetween';
+import UserImage from './UserImage';
 
 function Friend({ friendId, name, subtitle, userPicture }) {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ function Friend({ friendId, name, subtitle, userPicture }) {
     dispatch(setFriends({ friends: getFriends.data }));
   };
 
-  console.log(friendId, loggedInUserId, "user");
+  console.log(friendId, loggedInUserId, 'user');
 
   return (
     <FlexBetween>
@@ -55,9 +55,9 @@ function Friend({ friendId, name, subtitle, userPicture }) {
             variant="h5"
             fontWeight="bold"
             sx={{
-              "&:hover": {
+              '&:hover': {
                 color: palette.primary.light,
-                cursor: "pointer",
+                cursor: 'pointer',
               },
             }}
           >
@@ -72,9 +72,9 @@ function Friend({ friendId, name, subtitle, userPicture }) {
         {friendId === loggedInUserId && (
           <DeleteForeverOutlined
             sx={{
-              marginLeft: "0.5rem",
-              "&:hover": {
-                cursor: "pointer",
+              marginLeft: '0.5rem',
+              '&:hover': {
+                cursor: 'pointer',
               },
             }}
           />
@@ -83,7 +83,7 @@ function Friend({ friendId, name, subtitle, userPicture }) {
           onClick={addfriend}
           sx={{
             backgroundColor: primaryLight,
-            p: "0.6rem",
+            p: '0.6rem',
           }}
         >
           {isFriend ? (

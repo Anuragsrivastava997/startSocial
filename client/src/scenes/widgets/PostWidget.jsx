@@ -5,7 +5,7 @@ import {
   ShareOutlined,
   ReplyOutlined,
   DeleteForeverOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -15,19 +15,19 @@ import {
   Modal,
   Typography,
   useTheme,
-} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { BASE_URL } from "utils/default";
-import FlexBetween from "components/FlexBetween";
-import Friend from "components/Friend";
-import WidgetWrapper from "components/WidgetWrapper";
-import { setPost } from "state";
-import { addComment, deleteComment, handleLikeApi } from "apis/postApi";
+import { BASE_URL } from 'utils/default';
+import FlexBetween from 'components/FlexBetween';
+import Friend from 'components/Friend';
+import WidgetWrapper from 'components/WidgetWrapper';
+import { setPost } from 'state';
+import { addComment, deleteComment, handleLikeApi } from 'apis/postApi';
 
 function PostWidget({
   id,
@@ -43,9 +43,9 @@ function PostWidget({
 }) {
   const [isComments, setIsComments] = useState(false);
   const [isReply, setIsReply] = useState(false);
-  const [reply, setReply] = useState("");
+  const [reply, setReply] = useState('');
   const [commentId, setCommentId] = useState(null);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -59,13 +59,13 @@ function PostWidget({
   const likeCount = Object.keys(likes).length;
 
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
@@ -81,26 +81,26 @@ function PostWidget({
       user_id: loggedInUserId,
       content: reply,
       parent_post: commentId,
-      type: "reply",
-      post_type: "comment",
+      type: 'reply',
+      post_type: 'comment',
     };
 
     const response = await addComment(data, token);
     if (response.status === 201) {
       toast.success(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
       dispatch(setPost({ post: response.data.data[0] }));
     } else {
       toast.error(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     }
 
     setIsReply(false);
-    setReply("");
+    setReply('');
   };
 
   const handleCommentApi = async () => {
@@ -108,25 +108,25 @@ function PostWidget({
       post_id: id,
       user_id: loggedInUserId,
       content: comment,
-      type: "comment",
-      post_type: "post",
+      type: 'comment',
+      post_type: 'post',
     };
 
     const response = await addComment(data, token);
     if (response.status === 201) {
       toast.success(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
       dispatch(setPost({ post: response.data.data[0] }));
     } else {
       toast.error(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     }
 
-    setComment("");
+    setComment('');
   };
 
   const deleteCommentApi = async (commentID) => {
@@ -138,13 +138,13 @@ function PostWidget({
     const response = await deleteComment(commentID, data, token);
     if (response.status === 200) {
       toast.success(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
       dispatch(setPost({ post: response.data.data[0] }));
     } else {
       toast.error(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     }
@@ -157,13 +157,13 @@ function PostWidget({
     const response = await handleLikeApi(id, update, token);
     if (response.status === 200) {
       toast.success(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
       dispatch(setPost({ post: response.data.data[0] }));
     } else {
       toast.error(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     }
@@ -182,7 +182,7 @@ function PostWidget({
         subtitle={location}
         userPicture={profieImage}
       />
-      <Typography color={main} sx={{ mt: "1rem" }}>
+      <Typography color={main} sx={{ mt: '1rem' }}>
         {content}
       </Typography>
       {attachments && (
@@ -190,7 +190,7 @@ function PostWidget({
           width="100%"
           height="auto"
           alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
           src={`${BASE_URL}/${attachments}`}
         />
       )}
@@ -225,11 +225,11 @@ function PostWidget({
               onChange={(e) => setComment(e.target.value)}
               value={comment}
               sx={{
-                width: "100%",
+                width: '100%',
                 backgroundColor: palette.neutral.light,
-                borderRadius: "2rem",
-                padding: "0.5rem 2rem",
-                margin: "1rem 0",
+                borderRadius: '2rem',
+                padding: '0.5rem 2rem',
+                margin: '1rem 0',
               }}
             />
             <Button
@@ -238,7 +238,7 @@ function PostWidget({
               sx={{
                 color: palette.background.alt,
                 backgroundColor: palette.primary.main,
-                borderRadius: "3rem",
+                borderRadius: '3rem',
               }}
             >
               Comment
@@ -251,8 +251,8 @@ function PostWidget({
                 <Typography
                   sx={{
                     color: main,
-                    m: "0.5rem 0",
-                    pl: "1rem",
+                    m: '0.5rem 0',
+                    pl: '1rem',
                   }}
                 >
                   {comment.content}
@@ -261,8 +261,8 @@ function PostWidget({
                   <Typography
                     onClick={() => handleReplyModel(comment._id)}
                     sx={{
-                      "&:hover": {
-                        cursor: "pointer",
+                      '&:hover': {
+                        cursor: 'pointer',
                       },
                     }}
                   >
@@ -270,9 +270,9 @@ function PostWidget({
                   </Typography>
                   <DeleteForeverOutlined
                     sx={{
-                      marginLeft: "0.5rem",
-                      "&:hover": {
-                        cursor: "pointer",
+                      marginLeft: '0.5rem',
+                      '&:hover': {
+                        cursor: 'pointer',
                       },
                     }}
                     onClick={() => deleteCommentApi(comment._id)}
@@ -288,8 +288,8 @@ function PostWidget({
                       <Typography
                         sx={{
                           color: main,
-                          m: "0.5rem 0",
-                          pl: "1rem",
+                          m: '0.5rem 0',
+                          pl: '1rem',
                         }}
                       >
                         {reply.content}
@@ -297,9 +297,9 @@ function PostWidget({
                     </FlexBetween>
                     <DeleteForeverOutlined
                       sx={{
-                        marginLeft: "0.5rem",
-                        "&:hover": {
-                          cursor: "pointer",
+                        marginLeft: '0.5rem',
+                        '&:hover': {
+                          cursor: 'pointer',
                         },
                       }}
                       onClick={() => deleteCommentApi(reply._id)}
@@ -323,7 +323,7 @@ function PostWidget({
             <Box sx={style}>
               <Typography
                 sx={{
-                  textAlign: "center",
+                  textAlign: 'center',
                 }}
               >
                 Reply
@@ -334,11 +334,11 @@ function PostWidget({
                   onChange={(e) => setReply(e.target.value)}
                   value={reply}
                   sx={{
-                    width: "100%",
+                    width: '100%',
                     backgroundColor: palette.neutral.light,
-                    borderRadius: "2rem",
-                    padding: "1rem 2rem",
-                    margin: "1rem 0",
+                    borderRadius: '2rem',
+                    padding: '1rem 2rem',
+                    margin: '1rem 0',
                   }}
                 />
                 <Button
@@ -347,7 +347,7 @@ function PostWidget({
                   sx={{
                     color: palette.background.alt,
                     backgroundColor: palette.primary.main,
-                    borderRadius: "3rem",
+                    borderRadius: '3rem',
                   }}
                 >
                   Post

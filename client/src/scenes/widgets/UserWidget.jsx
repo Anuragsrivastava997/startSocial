@@ -5,18 +5,18 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
   FavoriteBorderOutlined,
-} from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "utils/default";
+} from '@mui/icons-material';
+import { Box, Typography, Divider, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from 'utils/default';
 
 // import Component
-import UserImage from "components/UserImage";
-import FlexBetween from "components/FlexBetween";
-import WidgetWrapper from "components/WidgetWrapper";
-import { getUser } from "apis/userApi";
+import UserImage from 'components/UserImage';
+import FlexBetween from 'components/FlexBetween';
+import WidgetWrapper from 'components/WidgetWrapper';
+import { getUser } from 'apis/userApi';
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
@@ -63,9 +63,9 @@ const UserWidget = ({ userId, picturePath }) => {
               color={dark}
               fontWeight="500"
               sx={{
-                "&:hover": {
+                '&:hover': {
                   color: palette.primary.light,
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 },
               }}
             >

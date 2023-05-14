@@ -1,5 +1,5 @@
-const provide = "Please provide valid";
-const empty = "Please enter";
+const provide = 'Please provide valid';
+const empty = 'Please enter';
 
 const responseMessage = {
   authMessage: {
@@ -7,9 +7,9 @@ const responseMessage = {
     emailAlreadyInUse: `email already in use`,
     userRegistered: `new user registered!`,
     unAuthorised: `User not logged in!`,
-    invalidToken: "Invalid token",
+    invalidToken: 'Invalid token',
     wrongPassword: `Incorrect password`,
-    emailOrContactAlreadyExists: "Email or Phone number already exists",
+    emailOrContactAlreadyExists: 'Email or Phone number already exists',
   },
   validationMessage: {
     emptyEmail: `${empty} email`,
@@ -21,33 +21,33 @@ const responseMessage = {
     invalidPassword: `Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character`,
   },
   userMessage: {
-    registered: "User registered",
-    loggedIn: "User logged in",
-    notFound: "User not found",
+    registered: 'User registered',
+    loggedIn: 'User logged in',
+    notFound: 'User not found',
     invalidId: `${provide} user id`,
-    friendAdded: "Friend added",
-    friendRemoved: "Friend removed",
+    friendAdded: 'Friend added',
+    friendRemoved: 'Friend removed',
   },
   postMessage: {
-    created: "Post created",
-    updated: "Post updated",
+    created: 'Post created',
+    updated: 'Post updated',
     invalidId: `${provide} post id`,
-    notFound: "Post not found",
-    deleted: "Post deleted",
-    alreadyDeleted: "Post already deleted",
-    liked: "Post liked",
-    likeRemoved: "Post like removed",
+    notFound: 'Post not found',
+    deleted: 'Post deleted',
+    alreadyDeleted: 'Post already deleted',
+    liked: 'Post liked',
+    likeRemoved: 'Post like removed',
   },
   eventMessage: {
     inValidId: `${provide} post id or user id`,
     inValid: `${provide} event id`,
-    created: "Event created",
-    updated: "Event updated",
-    deleted: "Event deleted",
-    notFound: "Event not found",
+    created: 'Event created',
+    updated: 'Event updated',
+    deleted: 'Event deleted',
+    notFound: 'Event not found',
   },
   other: {
-    interServerErr: "Internal server error",
+    interServerErr: 'Internal server error',
   },
 };
 

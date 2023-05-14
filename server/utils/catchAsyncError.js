@@ -1,6 +1,6 @@
-const catchAsync = (fn) => {
-  return (req, res, next) => {
-    fn(req, res, next).catch(next);
+const catchAsync = (function_) => {
+  return (request, response, next) => {
+    function_(request, response, next).catch(next);
   };
 };
 

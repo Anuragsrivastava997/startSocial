@@ -1,18 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable unicorn/no-null */
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  mode: "light",
+  mode: 'light',
   user: null,
   token: null,
   posts: [],
 };
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setMode: (state) => {
-      state.mode = state.mode === "light" ? "dark" : "light";
+      state.mode = state.mode === 'light' ? 'dark' : 'light';
     },
     setlogin: (state, action) => {
       state.user = action.payload.user;
@@ -25,8 +28,6 @@ export const authSlice = createSlice({
     setFriends: (state, action) => {
       if (state.user) {
         state.user.friends = action.payload.friends;
-      } else {
-        console.log("no friends found for this user");
       }
     },
     setPosts: (state, action) => {
@@ -44,7 +45,8 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setMode, setlogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setMode, setlogin, setLogout, setFriends, setPosts, setPost,
+} = authSlice.actions;
 
 export default authSlice.reducer;

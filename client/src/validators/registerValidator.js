@@ -1,5 +1,5 @@
-import * as yup from "yup";
-import responseMessage from "utils/message";
+import * as yup from 'yup';
+import responseMessage from '../utils/message';
 
 const validateRegister = yup.object().shape({
   name: yup.string().required(responseMessage.requiredMessage.name),
@@ -11,8 +11,8 @@ const validateRegister = yup.object().shape({
     .min(8, responseMessage.validationMessage.invalidPasswordLength)
     .max(15, responseMessage.validationMessage.invalidPasswordLength)
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
-      responseMessage.validationMessage.invalidPassword
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!$%&*?@])[\d!$%&*?@A-Za-z]{8,15}$/,
+      responseMessage.validationMessage.invalidPassword,
     ),
   location: yup.string().required(responseMessage.requiredMessage.location),
   occupation: yup.string().required(responseMessage.requiredMessage.occupation),

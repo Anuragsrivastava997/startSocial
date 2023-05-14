@@ -1,13 +1,13 @@
-import catchAsync from "../utils/catchAsyncError.js";
-import { sendResponse } from "../utils/commonFunctions.js";
-import responseMessage from "../utils/message.js";
-import bcrypt from "bcrypt";
-import User from "../models/userModels.js";
-import { reduceWithImageMin } from "../utils/imageQualityReducer.js";
+import catchAsync from '../utils/catchAsyncError.js';
+import {sendResponse} from '../utils/commonFunctions.js';
+import responseMessage from '../utils/message.js';
+import bcrypt from 'bcrypt';
+import User from '../models/userModels.js';
+import {reduceWithImageMin} from '../utils/imageQualityReducer.js';
 
-export const register = catchAsync(async (req, res) => {
+export const register = catchAsync(async (request, response) => {
   let user = {};
-  let hashedPassword = "";
+  let hashedPassword = '';
   let alreadyUser = {};
   const {
     name,
@@ -17,21 +17,22 @@ export const register = catchAsync(async (req, res) => {
     location,
     occupation,
     relationshipStatus,
-    profilePic,
-  } = req.body;
+  } = request.body;
 
-  if (!name || !email || !contact || !password)
-    return sendResponse(res, 400, {
+  if (!name || !email || !contact || !password) {
+    return sendResponse(response, 400, {
       msg: responseMessage.authMessage.invalidDetails,
     });
+  }
 
   alreadyUser = await User.exists({
-    $or: [{ email: email }, { contact: contact }],
+    $or: [{email: email}, {contact: contact}],
   });
-  if (alreadyUser)
-    return sendResponse(res, 400, {
+  if (alreadyUser) {
+    return sendResponse(response, 400, {
       msg: responseMessage.authMessage.emailOrContactAlreadyExists,
     });
+  }
   hashedPassword = await bcrypt.hash(password, 10);
 
   user = {
@@ -44,55 +45,58 @@ export const register = catchAsync(async (req, res) => {
     relationshipStatus,
   };
 
-  if (req.file) {
+  if (request.file) {
     user.profilePic = await reduceWithImageMin(
-      req.file.buffer,
-      req.file.originalname
+        request.file.buffer,
+        request.file.originalname,
     );
   }
 
   user = await User.create(user);
-  console.log(user, "user");
+  console.log(user, 'user');
   delete user._doc.password;
 
   return sendResponse(
-    res,
-    201,
-    {
-      msg: responseMessage.userMessage.registered,
-      data: user,
-    },
-    true
+      response,
+      201,
+      {
+        msg: responseMessage.userMessage.registered,
+        data: user,
+      },
+      true,
   );
 });
 
-export const login = catchAsync(async (req, res) => {
+export const login = catchAsync(async (request, response) => {
   let user = {};
-  const { email, password } = req.body;
+  const {email, password} = request.body;
 
-  if (!email || !password)
-    return sendResponse(res, 400, {
+  if (!email || !password) {
+    return sendResponse(response, 400, {
       msg: responseMessage.authMessage.invalidDetails,
     });
+  }
 
-  user = await User.findOne({ email }).select("+password");
+  user = await User.findOne({email}).select('+password');
 
-  if (!user)
-    return sendResponse(res, 400, {
+  if (!user) {
+    return sendResponse(response, 400, {
       msg: responseMessage.userMessage.notFound,
     });
+  }
 
-  if (!(await bcrypt.compare(password, user.password)))
-    return sendResponse(res, 400, {
+  if (!(await bcrypt.compare(password, user.password))) {
+    return sendResponse(response, 400, {
       msg: responseMessage.authMessage.wrongPassword,
     });
+  }
 
   delete user._doc.password;
 
   return sendResponse(
-    res,
-    200,
-    { msg: responseMessage.userMessage.loggedIn, data: user },
-    true
+      response,
+      200,
+      {msg: responseMessage.userMessage.loggedIn, data: user},
+      true,
   );
 });

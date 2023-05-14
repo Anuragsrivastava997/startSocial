@@ -4,16 +4,18 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "google",
-    "plugin:sonarjs/recommended",
-    "plugin:unicorn/recommended",
-    "plugin:import/recommended",
+    'google',
+    'plugin:sonarjs/recommended',
+    'plugin:unicorn/recommended',
+    'plugin:import/recommended',
   ],
   overrides: [],
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["unicorn", "sonarjs", "import"],
-  rules: {},
+  plugins: ['unicorn', 'sonarjs', 'import'],
+  rules: {
+    'unicorn/filename-case': ['error', { case: 'camelCase' }],
+  },
 };

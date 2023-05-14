@@ -2,7 +2,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   AttachFileOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Box,
   Divider,
@@ -11,25 +11,25 @@ import {
   useTheme,
   Button,
   IconButton,
-} from "@mui/material";
-import Dropzone from "react-dropzone";
-import FlexBetween from "components/FlexBetween";
-import WidgetWrapper from "components/WidgetWrapper";
-import UserImage from "components/UserImage";
+} from '@mui/material';
+import Dropzone from 'react-dropzone';
+import FlexBetween from 'components/FlexBetween';
+import WidgetWrapper from 'components/WidgetWrapper';
+import UserImage from 'components/UserImage';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
-import { createPost } from "apis/postApi";
-import { BASE_URL } from "utils/default";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPosts } from 'state';
+import { createPost } from 'apis/postApi';
+import { BASE_URL } from 'utils/default';
 
 function MyPostWidget({ picture }) {
   const [isFile, setIsFile] = useState(false);
   const [file, setFile] = useState(null);
-  const [post, setPost] = useState("");
+  const [post, setPost] = useState('');
 
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -46,29 +46,29 @@ function MyPostWidget({ picture }) {
   const handlePost = async () => {
     const formData = new FormData();
 
-    formData.append("user_id", _id);
-    formData.append("content", post);
+    formData.append('user_id', _id);
+    formData.append('content', post);
     if (file) {
-      formData.append("attachments", file);
+      formData.append('attachments', file);
     }
 
     const response = await createPost(formData, token);
 
     if (response.status === 201) {
       toast.success(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     } else {
       toast.error(response.data.msg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
       });
     }
     dispatch(setPosts({ posts: response.data.data }));
 
     setFile(null);
-    setPost("");
+    setPost('');
   };
 
   return (
@@ -81,10 +81,10 @@ function MyPostWidget({ picture }) {
           onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
-            width: "100%",
+            width: '100%',
             backgroundColor: palette.neutral.light,
-            borderRadius: "2rem",
-            padding: "1rem 2rem",
+            borderRadius: '2rem',
+            padding: '1rem 2rem',
           }}
         />
       </FlexBetween>
@@ -107,7 +107,7 @@ function MyPostWidget({ picture }) {
                   border={`1px solid ${palette.primary.main}`}
                   p="1rem"
                   width="100%"
-                  sx={{ "& :hover": { cursor: "pointer" } }}
+                  sx={{ '& :hover': { cursor: 'pointer' } }}
                 >
                   <input {...getInputProps()} />
                   {!file ? (
@@ -124,7 +124,7 @@ function MyPostWidget({ picture }) {
                 {file && (
                   <IconButton
                     onClick={() => setIsFile(null)}
-                    sx={{ width: "15%" }}
+                    sx={{ width: '15%' }}
                   >
                     <DeleteOutlined />
                   </IconButton>
@@ -135,14 +135,14 @@ function MyPostWidget({ picture }) {
         </Box>
       )}
 
-      <Divider sx={{ margin: "1.25rem 0" }} />
+      <Divider sx={{ margin: '1.25rem 0' }} />
 
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsFile(!isFile)}>
           <AttachFileOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
-            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+            sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
           >
             Attachment
           </Typography>
@@ -154,7 +154,7 @@ function MyPostWidget({ picture }) {
           sx={{
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
-            borderRadius: "3rem",
+            borderRadius: '3rem',
           }}
         >
           Post
