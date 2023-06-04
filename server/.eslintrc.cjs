@@ -16,6 +16,10 @@ module.exports = {
   },
   plugins: ['unicorn', 'sonarjs', 'import'],
   rules: {
-    'unicorn/filename-case': ['error', { case: 'camelCase' }],
+    'unicorn/filename-case': 'off',
+    camelcase: 'off',
+    'max-len': ['error', { code: 150 }],
+    'object-curly-spacing': 'off',
+    'new-cap': 'off',
   },
 };
